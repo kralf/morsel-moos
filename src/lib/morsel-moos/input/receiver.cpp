@@ -16,7 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "publisher.h"
+#include "receiver.h"
 
 #include <MOOSLIB/MOOSCommClient.h>
 
@@ -24,7 +24,7 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Publisher::Publisher(string name) :
+Receiver::Receiver(string name) :
   NodePath(name) {
   mComms = new CMOOSCommClient();
   mComms->SetOnConnectCallBack(onConnectCallback, this);
@@ -32,7 +32,8 @@ Publisher::Publisher(string name) :
   mComms->Run("localhost", 9000, "MOOSPublisher", 10);
 }
 
-Publisher::~Publisher() {
+Receiver::~Receiver() {
+  delete mComms;
 }
 
 /******************************************************************************/
@@ -44,15 +45,15 @@ Publisher::~Publisher() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Publisher::publish(double time) {
+void Receiver::receive(double time) {
 }
 
-bool Publisher::onConnectCallback(void*) {
+bool Receiver::onConnectCallback(void*) {
   return true;
 }
 
-bool Publisher::onDisconnectCallback(void* param) {
-  Publisher* publisher = (Publisher*)param;
+bool Receiver::onDisconnectCallback(void* param) {
+  Receiver* publisher = (Receiver*)param;
   publisher->mComms->Close();
   return true;
 }

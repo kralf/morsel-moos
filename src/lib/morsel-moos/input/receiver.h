@@ -16,43 +16,63 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "publisher.h"
+#ifndef RECEIVER_H
+#define RECEIVER_H
 
-#include <MOOSLIB/MOOSCommClient.h>
+/** \file receiver.h
+    \brief This file defines the Receiver class which is an interface for
+           receiving from MOOS.
+  */
 
-/******************************************************************************/
-/* Constructors and Destructor                                                */
-/******************************************************************************/
+#include <nodePath.h>
 
-Publisher::Publisher(string name) :
-  NodePath(name) {
-  mComms = new CMOOSCommClient();
-  mComms->SetOnConnectCallBack(onConnectCallback, this);
-  mComms->SetOnDisconnectCallBack(onDisconnectCallback, this);
-  mComms->Run("localhost", 9000, "MOOSPublisher", 10);
-}
+class CMOOSCommClient;
 
-Publisher::~Publisher() {
-}
+/** The Receiver class is an interface for receiving from MOOS.
+    \brief MOOS receiver
+  */
+class Receiver :
+  public NodePath {
+PUBLISHED:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Constructor
+  Receiver(std::string name);
+  /// Destructor
+  virtual ~Receiver();
+  /** @}
+    */
 
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
+  /** \name Methods
+    @{
+    */
+  /// Receive message from MOOS
+  void receive(double time);
+  /** @}
+    */
 
+public:
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
+protected:
+  /** \name Protected methods
+    @{
+    */
+  /// Connect callback for MOOS
+  static bool onConnectCallback(void*);
+  /// Disconnect callback for MOOS
+  static bool onDisconnectCallback(void*);
+  /** @}
+    */
 
-void Publisher::publish(double time) {
-}
+  /** \name Protected members
+    @{
+    */
+  /// Interface to MOOS
+  CMOOSCommClient* mComms;
+  /** @}
+    */
 
-bool Publisher::onConnectCallback(void*) {
-  return true;
-}
+};
 
-bool Publisher::onDisconnectCallback(void* param) {
-  Publisher* publisher = (Publisher*)param;
-  publisher->mComms->Close();
-  return true;
-}
+#endif // RECEIVER_H
