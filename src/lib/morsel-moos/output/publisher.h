@@ -48,7 +48,7 @@ PUBLISHED:
     @{
     */
   /// Publish through MOOS
-  void publish(double time);
+  virtual void publish(double time) = 0;
   /** @}
     */
 
@@ -59,9 +59,9 @@ protected:
     @{
     */
   /// Connect callback for MOOS
-  static bool onConnectCallback(void*);
+  static bool onConnectCallback(void* param);
   /// Disconnect callback for MOOS
-  static bool onDisconnectCallback(void*);
+  static bool onDisconnectCallback(void* param);
   /** @}
     */
 

@@ -24,7 +24,7 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Receiver::Receiver(string name) :
+Receiver::Receiver(std::string name) :
   NodePath(name) {
   mComms = new CMOOSCommClient();
   mComms->SetOnConnectCallBack(onConnectCallback, this);
@@ -45,10 +45,7 @@ Receiver::~Receiver() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Receiver::receive(double time) {
-}
-
-bool Receiver::onConnectCallback(void*) {
+bool Receiver::onConnectCallback(void* param) {
   return true;
 }
 

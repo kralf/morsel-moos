@@ -24,7 +24,7 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Publisher::Publisher(string name) :
+Publisher::Publisher(std::string name) :
   NodePath(name) {
   mComms = new CMOOSCommClient();
   mComms->SetOnConnectCallBack(onConnectCallback, this);
@@ -44,10 +44,7 @@ Publisher::~Publisher() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void Publisher::publish(double time) {
-}
-
-bool Publisher::onConnectCallback(void*) {
+bool Publisher::onConnectCallback(void* param) {
   return true;
 }
 
