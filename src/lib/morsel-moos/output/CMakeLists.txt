@@ -9,5 +9,10 @@ panda3d_interrogate(
   MODULE morsel_moos
 )
 
-remake_add_library(output)
+remake_find_library(MOOS MOOSLIB/MOOSCommClient.h PACKAGE MOOS)
+remake_find_library(MOOSGenLib MOOSGenLib/MOOSGenLib.h PACKAGE MOOSGenLib)
+
+remake_include(${MOOS_HEADERS})
+
+remake_add_library(output LINK ${MOOS_LIBRARY} ${MOOSGENLIB_LIBRARY})
 remake_add_headers(INSTALL output)

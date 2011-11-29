@@ -26,6 +26,11 @@ remake_pack_deb(
   morsel-moos
 )
 
+remake_doc(
+  html
+  latex
+)
+
 remake_pack_deb(
   COMPONENT python
   morsel-moos morsel-python
