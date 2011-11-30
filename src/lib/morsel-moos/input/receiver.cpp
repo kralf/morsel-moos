@@ -18,39 +18,46 @@
 
 #include "receiver.h"
 
+#include <stdexcept>
+
 #include <MOOSLIB/MOOSCommClient.h>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Receiver::Receiver(std::string name) :
-  NodePath(name) {
-  mComms = new CMOOSCommClient();
-  mComms->SetOnConnectCallBack(onConnectCallback, this);
-  mComms->SetOnDisconnectCallBack(onDisconnectCallback, this);
-  mComms->Run("localhost", 9000, "MOOSPublisher", 10);
+Receiver::Receiver(std::string name, std::string msgName, std::string
+  configFile) :
+  MOOSClient(name, configFile),
+  mMsgName(msgName) {
 }
 
 Receiver::~Receiver() {
-  delete mComms;
 }
-
-/******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-bool Receiver::onConnectCallback(void* param) {
+bool Receiver::connectCallback() {
+  if (!mComms->Register(mMsgName, 0))
+    throw std::runtime_error("Receiver::connectCallback: unable to register "
+      "message");
   return true;
 }
 
-bool Receiver::onDisconnectCallback(void* param) {
-  Receiver* publisher = (Receiver*)param;
-  publisher->mComms->Close();
+bool Receiver::disconnectCallback() {
   return true;
+}
+
+void Receiver::receive(double time) {
+  MOOSMSG_LIST newMail;
+  CMOOSMsg msg;
+  if (mComms->Fetch(newMail)) {
+    if (mComms->PeekMail(newMail, mMsgName, msg, true, true) == true) {
+      if (!msg.IsSkewed(MOOSTime())) {
+        receive(time, msg);
+      }
+    }
+  }
 }

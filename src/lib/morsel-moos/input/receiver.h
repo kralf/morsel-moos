@@ -24,21 +24,21 @@
            receiving from MOOS.
   */
 
-#include <nodePath.h>
+#include "morsel-moos/moos/moos_client.h"
 
-class CMOOSCommClient;
+class CMOOSMsg;
 
 /** The Receiver class is an interface for receiving from MOOS.
     \brief MOOS receiver
   */
 class Receiver :
-  public NodePath {
+  public MOOSClient {
 PUBLISHED:
   /** \name Constructors/destructor
     @{
     */
   /// Constructor
-  Receiver(std::string name);
+  Receiver(std::string name, std::string msgName, std::string configFile = "");
   /// Destructor
   virtual ~Receiver();
   /** @}
@@ -47,8 +47,8 @@ PUBLISHED:
   /** \name Methods
     @{
     */
-  /// Receive message from MOOS
-  virtual void receive(double time) = 0;
+  /// Update method called by simulator
+  void receive(double time);
   /** @}
     */
 
@@ -58,18 +58,20 @@ protected:
   /** \name Protected methods
     @{
     */
-  /// Connect callback for MOOS
-  static bool onConnectCallback(void* param);
-  /// Disconnect callback for MOOS
-  static bool onDisconnectCallback(void* param);
+  /// Connect callback
+  virtual bool connectCallback();
+  /// Disconnect callback
+  virtual bool disconnectCallback();
+  /// Handle the received MOOS message (to be implemented)
+  virtual void receive(double time, const CMOOSMsg& msg) = 0;
   /** @}
     */
 
   /** \name Protected members
     @{
     */
-  /// Interface to MOOS
-  CMOOSCommClient* mComms;
+  /// Message to which we listen
+  std::string mMsgName;
   /** @}
     */
 

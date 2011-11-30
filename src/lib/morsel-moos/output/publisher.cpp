@@ -18,38 +18,43 @@
 
 #include "publisher.h"
 
+#include <stdexcept>
+
 #include <MOOSLIB/MOOSCommClient.h>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Publisher::Publisher(std::string name) :
-  NodePath(name) {
-  mComms = new CMOOSCommClient();
-  mComms->SetOnConnectCallBack(onConnectCallback, this);
-  mComms->SetOnDisconnectCallBack(onDisconnectCallback, this);
-  mComms->Run("localhost", 9000, "MOOSPublisher", 10);
+Publisher::Publisher(std::string name, std::string msgName, std::string
+  configFile) :
+  MOOSClient(name, configFile),
+  mMsgName(msgName) {
 }
 
 Publisher::~Publisher() {
 }
 
 /******************************************************************************/
-/* Accessors                                                                  */
-/******************************************************************************/
-
-
-/******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
-bool Publisher::onConnectCallback(void* param) {
+bool Publisher::connectCallback() {
   return true;
 }
 
-bool Publisher::onDisconnectCallback(void* param) {
-  Publisher* publisher = (Publisher*)param;
-  publisher->mComms->Close();
+bool Publisher::disconnectCallback() {
   return true;
+}
+
+void Publisher::publishString(std::string msg) {
+  if (!mComms->Notify(mMsgName, msg, MOOSTime()))
+    std::cerr << "Publisher::publishString(): failed to publish on MOOS"
+      << std::endl;
+}
+
+void Publisher::publishBinary(unsigned char* data, size_t size) {
+  if (!mComms->Notify(mMsgName, data, size, MOOSTime()))
+    std::cerr << "Publisher::publishString(): failed to publish on MOOS"
+      << std::endl;
 }

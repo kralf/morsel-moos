@@ -16,65 +16,69 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef PUBLISHER_H
-#define PUBLISHER_H
+#ifndef MOOSCLIENT_H
+#define MOOSCLIENT_H
 
-/** \file publisher.h
-    \brief This file defines the Publisher class which is an interface for
-           publishing through MOOS.
+/** \file moos_client.h
+    \brief This file defines the MOOSClient class which is the abstract base
+           class for any MOOS clients.
   */
 
-#include "morsel-moos/moos/moos_client.h"
+#include <nodePath.h>
 
-/** The Publisher class is an interface for publishing through MOOS.
-    \brief MOOS publisher
+class CMOOSCommClient;
+
+/** The MOOSClient class is the abstract base class for any MOOS clients.
+    \brief MOOS client
   */
-class Publisher :
-  public MOOSClient {
-PUBLISHED:
+class MOOSClient :
+  public NodePath {
+public:
   /** \name Constructors/destructor
     @{
     */
   /// Constructor
-  Publisher(std::string name, std::string msgName, std::string configFile = "");
+  MOOSClient(std::string name, std::string configFile = "");
   /// Destructor
-  virtual ~Publisher();
+  virtual ~MOOSClient();
   /** @}
     */
-
-  /** \name Methods
-    @{
-    */
-  /// Update method called by simulator
-  virtual void publish(double time) = 0;
-  /** @}
-    */
-
-public:
 
 protected:
   /** \name Protected methods
     @{
     */
-  /// Connect callback
-  virtual bool connectCallback();
-  /// Disconnect callback
-  virtual bool disconnectCallback();
-  /// Publish a string to MOOS
-  void publishString(std::string msg);
-  /// Publish binary data to MOOS
-  void publishBinary(unsigned char* data, size_t size);
+  /// Connect callback for MOOS
+  static bool onConnectCallback(void* param);
+  /// Disconnect callback for MOOS
+  static bool onDisconnectCallback(void* param);
+  /// Parse the configuration file and set the parameters
+  void parseConfigFile(const std::string& config, const std::string& procName);
+  /// Connect callback to be implemented
+  virtual bool connectCallback() = 0;
+  /// Disconnect callback to be implemented
+  virtual bool disconnectCallback() = 0;
   /** @}
     */
 
   /** \name Protected members
     @{
     */
-  /// Message which we publish
-  std::string mMsgName;
+  /// Interface to MOOS
+  CMOOSCommClient* mComms;
+  /// Name of the MOOSDB machine to connect
+  std::string mServerHost;
+  /// Port on which to connect
+  unsigned int mServerPort;
+  /// Application loop frequency [Hz]
+  unsigned int mAppTick;
+  /// Communication loop frequency [Hz]
+  unsigned int mCommTick;
+  /// MOOS name
+  std::string mMOOSName;
   /** @}
     */
 
 };
 
-#endif // PUBLISHER_H
+#endif // MOOSCLIENT_H
