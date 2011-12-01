@@ -15,8 +15,6 @@ remake_project(
   INSTALL /usr
 )
 
-#remake_python()
-
 remake_pack_deb(morsel)
 
 remake_pack_deb(
@@ -30,8 +28,3 @@ remake_doc(
   html
   latex
 )
-
-#remake_pack_deb(
-#  COMPONENT python
-#  morsel-moos morsel-python
-#)
