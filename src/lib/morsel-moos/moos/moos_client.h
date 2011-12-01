@@ -33,7 +33,7 @@ class CMOOSCommClient;
   */
 class MOOSClient :
   public NodePath {
-public:
+PUBLISHED:
   /** \name Constructors/destructor
     @{
     */
@@ -43,6 +43,8 @@ public:
   virtual ~MOOSClient();
   /** @}
     */
+
+public:
 
 protected:
   /** \name Protected methods

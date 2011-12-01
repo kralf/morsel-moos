@@ -10,5 +10,6 @@ remake_include(
   ${PANDA3D_PANDA_HEADERS}
   lib
 )
+
 remake_add_directories(lib)
 remake_add_directories(metalib)

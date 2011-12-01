@@ -1,3 +1,0 @@
-remake_add_directories(morsel_moos)
-remake_python_distribute(NAME morsel_moos PACKAGES morsel_moos)
-remake_add_directories(morsel_moosc)

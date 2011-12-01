@@ -9,5 +9,5 @@ panda3d_interrogate(
   MODULE morsel_moos
 )
 
-remake_add_library(input LINK moos)
+remake_add_library(input)
 remake_add_headers(INSTALL input)
