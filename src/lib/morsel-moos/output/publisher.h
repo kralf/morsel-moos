@@ -61,9 +61,9 @@ protected:
   /// Disconnect callback
   virtual bool disconnectCallback();
   /// Publish a string to MOOS
-  void publishString(std::string msg);
+  bool publishString(std::string msg);
   /// Publish binary data to MOOS
-  void publishBinary(unsigned char* data, size_t size);
+  bool publishBinary(unsigned char* data, size_t size);
   /** @}
     */
 

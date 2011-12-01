@@ -18,8 +18,6 @@
 
 #include "publisher.h"
 
-#include <stdexcept>
-
 #include <MOOSLIB/MOOSCommClient.h>
 
 /******************************************************************************/
@@ -47,14 +45,10 @@ bool Publisher::disconnectCallback() {
   return true;
 }
 
-void Publisher::publishString(std::string msg) {
-  if (!mComms->Notify(mMsgName, msg, MOOSTime()))
-    std::cerr << "Publisher::publishString(): failed to publish on MOOS"
-      << std::endl;
+bool Publisher::publishString(std::string msg) {
+  return mComms->Notify(mMsgName, msg, MOOSTime());
 }
 
-void Publisher::publishBinary(unsigned char* data, size_t size) {
-  if (!mComms->Notify(mMsgName, data, size, MOOSTime()))
-    std::cerr << "Publisher::publishString(): failed to publish on MOOS"
-      << std::endl;
+bool Publisher::publishBinary(unsigned char* data, size_t size) {
+  return mComms->Notify(mMsgName, data, size, MOOSTime());
 }
