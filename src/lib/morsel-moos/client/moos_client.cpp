@@ -30,7 +30,7 @@
 /******************************************************************************/
 
 MOOSClient::MOOSClient(std::string name, std::string configFile, std::string
-    serverHost, unsigned int serverPort, unsigned int commTick) :
+    serverHost, unsigned int serverPort, unsigned int commTick, bool quiet) :
   NodePath(name),
   mConfigFile(configFile),
   mServerHost(serverHost),
@@ -40,6 +40,7 @@ MOOSClient::MOOSClient(std::string name, std::string configFile, std::string
     parseConfigFile(mConfigFile, name);
 
   mComms = new CMOOSCommClient();
+  mComms->SetQuiet(quiet);
   mComms->SetOnConnectCallBack(onConnectCallback, this);
   mComms->SetOnDisconnectCallBack(onDisconnectCallback, this);
   mComms->Run(mServerHost.c_str(), mServerPort, name.c_str(), mCommTick);

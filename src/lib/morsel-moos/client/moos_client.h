@@ -42,7 +42,7 @@ PUBLISHED:
   /// Constructor
   MOOSClient(std::string name, std::string configFile = "", std::string
     serverHost = "localhost", unsigned int serverPort = 9000,
-    unsigned int commTick = 10);
+    unsigned int commTick = 10, bool quiet = true);
   /// Destructor
   virtual ~MOOSClient();
   /** @}
