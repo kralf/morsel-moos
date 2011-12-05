@@ -53,6 +53,8 @@ PUBLISHED:
     */
   /// Retrieve the comms frequency
   unsigned int getCommTick() const;
+  /// Retrieve the MOOS time
+  double getTime() const;
   /** @}
     */
 

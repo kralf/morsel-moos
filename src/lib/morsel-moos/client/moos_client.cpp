@@ -57,6 +57,10 @@ unsigned int MOOSClient::getCommTick() const {
   return mCommTick;
 }
 
+double MOOSClient::getTime() const {
+  return MOOSTime();
+}
+
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
