@@ -71,7 +71,8 @@ public:
   /// Subscribe to message
   void subscribe(const std::string& msgName, MOOSReceiver* receiver);
   /// Unsubscribe from message
-  void unsubscribe(const std::string& msgName);
+  void unsubscribe(const std::string& msgName, MOOSReceiver* receiver);
+  void unsubscribe(MOOSReceiver* receiver);
   /// Publish string message
   void publish(const std::string& msgName, const std::string& msg);
   /// Publish binary message

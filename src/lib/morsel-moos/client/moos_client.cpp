@@ -82,20 +82,42 @@ void MOOSClient::receive(double time) {
 
 void MOOSClient::subscribe(const std::string& msgName, MOOSReceiver*
     receiver) {
-  subscriptions[msgName] = receiver;
-  
-  if (mComms->IsConnected() && !mComms->Register(msgName, 0))
-    throw std::runtime_error("Failed to subscribe to message");
-}
-
-void MOOSClient::unsubscribe(const std::string& msgName) {
   std::map<std::string, MOOSReceiver*>::iterator it =
     subscriptions.find(msgName);
 
-  if ((it != subscriptions.end()) && mComms->UnRegister(it->first))
+  if ((it == subscriptions.end()) || (it->second == receiver)) {
+    subscriptions[msgName] = receiver;
+    if (mComms->IsConnected() && !mComms->Register(msgName, 0))
+      throw std::runtime_error("Failed to subscribe to message");
+  }
+  else
+    throw std::runtime_error("Message already subscribed to");
+}
+
+void MOOSClient::unsubscribe(const std::string& msgName, MOOSReceiver*
+    receiver) {
+  std::map<std::string, MOOSReceiver*>::iterator it =
+    subscriptions.find(msgName);
+
+  if ((it != subscriptions.end()) && (it->second == receiver) &&
+      mComms->UnRegister(it->first))
     subscriptions.erase(it);
   else
     throw std::runtime_error("Failed to unsubscribe from message");
+}
+
+void MOOSClient::unsubscribe(MOOSReceiver* receiver) {
+  for (std::map<std::string, MOOSReceiver*>::iterator it =
+      subscriptions.begin(); it != subscriptions.end(); ) {
+    if (it->second == receiver) {
+      if (mComms->UnRegister(it->first))
+        subscriptions.erase(it++);
+      else
+        throw std::runtime_error("Failed to unsubscribe from message");
+    }
+    else
+      ++it;
+  }
 }
 
 void MOOSClient::publish(const std::string& msgName, const std::string& msg) {

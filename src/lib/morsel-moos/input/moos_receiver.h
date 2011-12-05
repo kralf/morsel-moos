@@ -38,7 +38,8 @@ PUBLISHED:
     @{
     */
   /// Constructor
-  MOOSReceiver(std::string name, MOOSClient& client, std::string msgName);
+  MOOSReceiver(std::string name, MOOSClient& client, std::string
+    msgName = "");
   /// Destructor
   virtual ~MOOSReceiver();
   /** @}
@@ -48,6 +49,11 @@ public:
   /** \name Public methods
     @{
     */
+  /// Subscribe to message
+  void subscribe(const std::string& msgName);
+  /// Unsubscribe from message
+  void unsubscribe(const std::string& msgName);
+    
   /// Receive string message
   virtual void receive(const std::string& msgName, double msgTime,
     const std::string& msg);
@@ -63,8 +69,6 @@ protected:
     */
   /// Client used by this receiver
   MOOSClient* mClient;
-  /// Message to which we subscribe
-  std::string mMsgName;
   /** @}
     */
 

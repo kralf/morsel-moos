@@ -27,18 +27,26 @@
 MOOSReceiver::MOOSReceiver(std::string name, MOOSClient& client, std::string
     msgName) :
   NodePath(name),
-  mClient(&client),
-  mMsgName(msgName) {
-  mClient->subscribe(mMsgName, this);
+  mClient(&client) {
+  if (!msgName.empty())
+    mClient->subscribe(msgName, this);
 }
 
 MOOSReceiver::~MOOSReceiver() {
-  mClient->unsubscribe(mMsgName);
+  mClient->unsubscribe(this);
 }
 
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
+
+void MOOSReceiver::subscribe(const std::string& msgName) {
+  mClient->subscribe(msgName, this);
+}
+
+void MOOSReceiver::unsubscribe(const std::string& msgName) {
+  mClient->unsubscribe(msgName, this);
+}
 
 void MOOSReceiver::receive(const std::string& msgName, double msgTime,
     const std::string& msg) {

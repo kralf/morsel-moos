@@ -38,30 +38,30 @@ PUBLISHED:
     @{
     */
   /// Constructor
-  MOOSPublisher(std::string name, MOOSClient& client, std::string msgName);
+  MOOSPublisher(std::string name, MOOSClient& client);
   /// Destructor
   virtual ~MOOSPublisher();
   /** @}
     */
 
-protected:
-  /** \name Protected methods
+public:
+  /** \name Public methods
     @{
     */
   /// Publish a string to MOOS
-  void publish(const std::string& msg);
+  void publish(const std::string& msgName, const std::string& msg);
   /// Publish binary data to MOOS
-  void publish(unsigned char* data, size_t size);
+  void publish(const std::string& msgName, unsigned char* msgData,
+    size_t msgSize);
   /** @}
     */
 
+protected:
   /** \name Protected members
     @{
     */
   /// Client used by this publisher
   MOOSClient* mClient;
-  /// Message which we publish
-  std::string mMsgName;
   /** @}
     */
 

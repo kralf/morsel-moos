@@ -22,11 +22,9 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-MOOSPublisher::MOOSPublisher(std::string name, MOOSClient& client, std::string
-    msgName) :
+MOOSPublisher::MOOSPublisher(std::string name, MOOSClient& client) :
   NodePath(name),
-  mClient(&client),
-  mMsgName(msgName) {
+  mClient(&client) {
 }
 
 MOOSPublisher::~MOOSPublisher() {
@@ -36,10 +34,12 @@ MOOSPublisher::~MOOSPublisher() {
 /* Methods                                                                    */
 /******************************************************************************/
 
-void MOOSPublisher::publish(const std::string& msg) {
-  mClient->publish(mMsgName, msg);
+void MOOSPublisher::publish(const std::string& msgName, const
+    std::string& msg) {
+  mClient->publish(msgName, msg);
 }
 
-void MOOSPublisher::publish(unsigned char* data, size_t size) {
-  mClient->publish(mMsgName, data, size);
+void MOOSPublisher::publish(const std::string& msgName, unsigned char* msgData,
+    size_t msgSize) {
+  mClient->publish(msgName, msgData, msgSize);
 }
