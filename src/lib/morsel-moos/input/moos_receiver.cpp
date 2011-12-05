@@ -42,8 +42,10 @@ MOOSReceiver::~MOOSReceiver() {
 
 void MOOSReceiver::receive(const std::string& msgName, double msgTime,
     const std::string& msg) {
+  throw std::runtime_error("Received unhandled string message");
 }
 
 void MOOSReceiver::receive(const std::string& msgName, double msgTime,
     const unsigned char* msgData, size_t msgSize) {
+  throw std::runtime_error("Received unhandled binary message");
 }
