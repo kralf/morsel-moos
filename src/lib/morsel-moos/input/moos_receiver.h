@@ -16,39 +16,58 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "publisher.h"
+#ifndef MOOSRECEIVER_H
+#define MOOSRECEIVER_H
 
-#include <MOOSLIB/MOOSCommClient.h>
+/** \file moos_receiver.h
+    \brief This file defines the Receiver class which is an interface for
+           receiving from MOOS.
+  */
 
-/******************************************************************************/
-/* Constructors and Destructor                                                */
-/******************************************************************************/
+#include "morsel-moos/client/moos_client.h"
 
-Publisher::Publisher(std::string name, std::string msgName, std::string
-  configFile) :
-  MOOSClient(name, configFile),
-  mMsgName(msgName) {
-}
+#include <nodePath.h>
 
-Publisher::~Publisher() {
-}
+/** The Receiver class is an interface for receiving from MOOS.
+    \brief MOOS receiver
+  */
+class MOOSReceiver :
+  public NodePath {
+PUBLISHED:
+  /** \name Constructors/destructor
+    @{
+    */
+  /// Constructor
+  MOOSReceiver(std::string name, MOOSClient& client, std::string msgName);
+  /// Destructor
+  virtual ~MOOSReceiver();
+  /** @}
+    */
 
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
+public:
+  /** \name Public methods
+    @{
+    */
+  /// Receive string message
+  virtual void receive(const std::string& msgName, double msgTime,
+    const std::string& msg) = 0;
+  /// Receive binary message
+  virtual void receive(const std::string& msgName, double msgTime,
+    const unsigned char* msgData, size_t msgSize) = 0;
+  /** @}
+    */
 
-bool Publisher::connectCallback() {
-  return true;
-}
+protected:
+  /** \name Protected members
+    @{
+    */
+  /// Client used by this receiver
+  MOOSClient* mClient;
+  /// Message to which we subscribe
+  std::string mMsgName;
+  /** @}
+    */
 
-bool Publisher::disconnectCallback() {
-  return true;
-}
+};
 
-bool Publisher::publishString(std::string msg) {
-  return mComms->Notify(mMsgName, msg, MOOSTime());
-}
-
-bool Publisher::publishBinary(unsigned char* data, size_t size) {
-  return mComms->Notify(mMsgName, data, size, MOOSTime());
-}
+#endif // RECEIVER_H

@@ -18,6 +18,8 @@
 
 #include "moos_client.h"
 
+#include "morsel-moos/input/moos_receiver.h"
+
 #include <stdexcept>
 
 #include <MOOSLIB/MOOSCommClient.h>
@@ -27,21 +29,20 @@
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-MOOSClient::MOOSClient(std::string name, std::string configFile) :
-  NodePath(name) {
-  if (configFile.compare("") != 0)
-    parseConfigFile(configFile, name);
-  else {
-    mServerHost = "localhost";
-    mServerPort = 9000;
-    mAppTick = 10;
-    mCommTick = 10;
-    mMOOSName = name;
-  }
+MOOSClient::MOOSClient(std::string name, std::string configFile, std::string
+    serverHost, unsigned int serverPort, unsigned int commTick) :
+  NodePath(name),
+  mConfigFile(configFile),
+  mServerHost(serverHost),
+  mServerPort(serverPort),
+  mCommTick(commTick) {
+  if (!mConfigFile.empty())
+    parseConfigFile(mConfigFile, name);
+
   mComms = new CMOOSCommClient();
   mComms->SetOnConnectCallBack(onConnectCallback, this);
   mComms->SetOnDisconnectCallBack(onDisconnectCallback, this);
-  mComms->Run(mServerHost.c_str(), mServerPort, mMOOSName.c_str(), mCommTick);
+  mComms->Run(mServerHost.c_str(), mServerPort, name.c_str(), mCommTick);
 }
 
 MOOSClient::~MOOSClient() {
@@ -49,39 +50,97 @@ MOOSClient::~MOOSClient() {
 }
 
 /******************************************************************************/
+/* Accessors                                                                  */
+/******************************************************************************/
+
+unsigned int MOOSClient::getCommTick() const {
+  return mCommTick;
+}
+
+/******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
 
+void MOOSClient::receive(double time) {
+  MOOSMSG_LIST newMail;
+  CMOOSMsg msg;
+  
+  if (mComms->Fetch(newMail)) {
+    for (std::map<std::string, MOOSReceiver*>::const_iterator
+        it = subscriptions.begin(); it != subscriptions.end(); ++it)
+      if ((mComms->PeekMail(newMail, it->first, msg, true, true)) &&
+        !msg.IsSkewed(MOOSTime())) {
+      if (msg.IsDataType(MOOS_STRING))
+        it->second->receive(it->first, msg.GetTime(), msg.GetString());
+      else if (msg.IsDataType(MOOS_BINARY_STRING))
+        it->second->receive(it->first, msg.GetTime(),
+          reinterpret_cast<const unsigned char*>(msg.GetString().c_str()),
+          msg.GetString().length());
+    }
+  }
+}
+
+void MOOSClient::subscribe(const std::string& msgName, MOOSReceiver*
+    receiver) {
+  subscriptions[msgName] = receiver;
+  
+  if (mComms->IsConnected() && !mComms->Register(msgName, 0))
+    throw std::runtime_error("Failed to subscribe to message");
+}
+
+void MOOSClient::unsubscribe(const std::string& msgName) {
+  std::map<std::string, MOOSReceiver*>::iterator it =
+    subscriptions.find(msgName);
+
+  if ((it != subscriptions.end()) && mComms->UnRegister(it->first))
+    subscriptions.erase(it);
+  else
+    throw std::runtime_error("Failed to unsubscribe from message");
+}
+
+void MOOSClient::publish(const std::string& msgName, const std::string& msg) {
+  if (!mComms->Notify(msgName, msg, MOOSTime()))
+    throw std::runtime_error("Failed to publish message");
+}
+
+void MOOSClient::publish(const std::string& msgName, unsigned char* msgData,
+    size_t msgSize) {
+  if (!mComms->Notify(msgName, msgData, msgSize, MOOSTime()))
+    throw std::runtime_error("Failed to publish message");
+}
+
 bool MOOSClient::onConnectCallback(void* param) {
   MOOSClient* moosClient = (MOOSClient*)param;
-  return moosClient->connectCallback();
+
+  for (std::map<std::string, MOOSReceiver*>::const_iterator
+      it = moosClient->subscriptions.begin();
+      it != moosClient->subscriptions.end(); ++it)
+    moosClient->subscribe(it->first, it->second);
+  
+  return true;
 }
 
 bool MOOSClient::onDisconnectCallback(void* param) {
   MOOSClient* moosClient = (MOOSClient*)param;
+  
   if (!moosClient->mComms->Close())
-    throw std::runtime_error("MOOSClient::onDisconnectCallback: unable to "
-      "disconnect");
-  return moosClient->disconnectCallback();
+    throw std::runtime_error("Failed to disconnect client");
+  
+  return true;
 }
 
 void MOOSClient::parseConfigFile(const std::string& configFile, const
-  std::string& procName) {
+  std::string& appName) {
   CProcessConfigReader configReader;
-  configReader.SetAppName(procName);
+  configReader.SetAppName(appName);
   configReader.SetFile(configFile);
+  
   if (!configReader.GetValue("ServerHost", mServerHost))
     throw std::runtime_error("MOOSClient::parseConfigFile(): "
       "configuration failure - no \"ServerHost\" specified in config file");
   if (!configReader.GetValue("ServerPort", mServerPort))
     throw std::runtime_error("MOOSClient::parseConfigFile(): "
       "configuration failure - no \"ServerPort\" specified in config file");
-  if (!configReader.GetConfigurationParam("MOOSName", mMOOSName))
-    throw std::runtime_error("MOOSClient::parseConfigFile(): "
-      "configuration failure - no \"MOOSName\" specified in config file");
-  if (!configReader.GetConfigurationParam("AppTick", mAppTick))
-    throw std::runtime_error("MOOSClient::parseConfigFile(): "
-      "configuration failure - no \"AppTick\" specified in config file");
   if (!configReader.GetConfigurationParam("CommTick", mCommTick))
     throw std::runtime_error("MOOSClient::parseConfigFile(): "
       "configuration failure - no \"CommTick\" specified in config file");

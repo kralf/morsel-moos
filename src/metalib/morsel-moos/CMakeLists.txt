@@ -5,5 +5,6 @@ panda3d_interrogate_module(
 )
 
 remake_add_library(
-  morsel_moosc PREFIX panda3d- LINK moos output input ${PANDA3D_MORSELC_LIBRARY}
+  morsel_moosc PREFIX panda3d-
+  LINK client input output ${PANDA3D_MORSELC_LIBRARY}
 )

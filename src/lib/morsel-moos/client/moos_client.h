@@ -28,6 +28,8 @@
 
 class CMOOSCommClient;
 
+class MOOSReceiver;
+
 /** The MOOSClient class is the abstract base class for any MOOS clients.
     \brief MOOS client
   */
@@ -38,13 +40,45 @@ PUBLISHED:
     @{
     */
   /// Constructor
-  MOOSClient(std::string name, std::string configFile = "");
+  MOOSClient(std::string name, std::string configFile = "", std::string
+    serverHost = "localhost", unsigned int serverPort = 9000,
+    unsigned int commTick = 10);
   /// Destructor
   virtual ~MOOSClient();
   /** @}
     */
 
+  /** \name Published accessors
+    @{
+    */
+  /// Retrieve the comms frequency
+  unsigned int getCommTick() const;
+  /** @}
+    */
+
+  /** \name Published methods
+    @{
+    */
+  /// Receive messages
+  void receive(double time);
+  /** @}
+    */
+
 public:
+  /** \name Public methods
+    @{
+    */
+  /// Subscribe to message
+  void subscribe(const std::string& msgName, MOOSReceiver* receiver);
+  /// Unsubscribe from message
+  void unsubscribe(const std::string& msgName);
+  /// Publish string message
+  void publish(const std::string& msgName, const std::string& msg);
+  /// Publish binary message
+  void publish(const std::string& msgName, unsigned char* msgData,
+    size_t msgSize);
+  /** @}
+    */
 
 protected:
   /** \name Protected methods
@@ -55,29 +89,25 @@ protected:
   /// Disconnect callback for MOOS
   static bool onDisconnectCallback(void* param);
   /// Parse the configuration file and set the parameters
-  void parseConfigFile(const std::string& config, const std::string& procName);
-  /// Connect callback to be implemented
-  virtual bool connectCallback() = 0;
-  /// Disconnect callback to be implemented
-  virtual bool disconnectCallback() = 0;
+  void parseConfigFile(const std::string& config, const std::string& appName);
   /** @}
     */
 
   /** \name Protected members
     @{
     */
+  /// Subscriptions
+  std::map<std::string, MOOSReceiver*> subscriptions;
   /// Interface to MOOS
   CMOOSCommClient* mComms;
+  /// Name of the MOOSDB machine to connect
+  std::string mConfigFile;
   /// Name of the MOOSDB machine to connect
   std::string mServerHost;
   /// Port on which to connect
   unsigned int mServerPort;
-  /// Application loop frequency [Hz]
-  unsigned int mAppTick;
   /// Communication loop frequency [Hz]
   unsigned int mCommTick;
-  /// MOOS name
-  std::string mMOOSName;
   /** @}
     */
 

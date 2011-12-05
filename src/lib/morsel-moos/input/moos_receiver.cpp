@@ -16,48 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#include "receiver.h"
+#include "moos_receiver.h"
 
 #include <stdexcept>
-
-#include <MOOSLIB/MOOSCommClient.h>
 
 /******************************************************************************/
 /* Constructors and Destructor                                                */
 /******************************************************************************/
 
-Receiver::Receiver(std::string name, std::string msgName, std::string
-  configFile) :
-  MOOSClient(name, configFile),
+MOOSReceiver::MOOSReceiver(std::string name, MOOSClient& client, std::string
+    msgName) :
+  NodePath(name),
+  mClient(&client),
   mMsgName(msgName) {
+  mClient->subscribe(mMsgName, this);
 }
 
-Receiver::~Receiver() {
-}
-
-/******************************************************************************/
-/* Methods                                                                    */
-/******************************************************************************/
-
-bool Receiver::connectCallback() {
-  if (!mComms->Register(mMsgName, 0))
-    throw std::runtime_error("Receiver::connectCallback: unable to register "
-      "message");
-  return true;
-}
-
-bool Receiver::disconnectCallback() {
-  return true;
-}
-
-void Receiver::receive(double time) {
-  MOOSMSG_LIST newMail;
-  CMOOSMsg msg;
-  if (mComms->Fetch(newMail)) {
-    if (mComms->PeekMail(newMail, mMsgName, msg, true, true) == true) {
-      if (!msg.IsSkewed(MOOSTime())) {
-        receive(time, msg);
-      }
-    }
-  }
+MOOSReceiver::~MOOSReceiver() {
+  mClient->unsubscribe(mMsgName);
 }

@@ -3,10 +3,10 @@ panda3d_interrogate_include(
   ${PANDA3D_PANDA_HEADERS}/parser-inc
 )
 panda3d_interrogate(
-  moos
+  client
   COMMAND ${PANDA3D_INTERROGATE_EXECUTABLE}
   MODULE morsel_moos
 )
 
-remake_add_library(moos LINK ${MOOS_LIBRARY} ${MOOSGENLIB_LIBRARY})
-remake_add_headers(INSTALL moos)
+remake_add_library(client LINK ${MOOS_LIBRARY} ${MOOSGENLIB_LIBRARY})
+remake_add_headers(INSTALL client)

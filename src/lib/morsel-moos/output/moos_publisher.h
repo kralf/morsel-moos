@@ -16,65 +16,55 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef RECEIVER_H
-#define RECEIVER_H
+#ifndef MOOSPUBLISHER_H
+#define MOOSPUBLISHER_H
 
-/** \file receiver.h
-    \brief This file defines the Receiver class which is an interface for
-           receiving from MOOS.
+/** \file moos_publisher.h
+    \brief This file defines the Publisher class which is an interface for
+           publishing through MOOS.
   */
 
-#include "morsel-moos/moos/moos_client.h"
+#include "morsel-moos/client/moos_client.h"
 
-class CMOOSMsg;
+#include <nodePath.h>
 
-/** The Receiver class is an interface for receiving from MOOS.
-    \brief MOOS receiver
+/** The Publisher class is an interface for publishing through MOOS.
+    \brief MOOS publisher
   */
-class Receiver :
-  public MOOSClient {
+class MOOSPublisher :
+  public NodePath {
 PUBLISHED:
   /** \name Constructors/destructor
     @{
     */
   /// Constructor
-  Receiver(std::string name, std::string msgName, std::string configFile = "");
+  MOOSPublisher(std::string name, MOOSClient& client, std::string msgName);
   /// Destructor
-  virtual ~Receiver();
+  virtual ~MOOSPublisher();
   /** @}
     */
-
-  /** \name Methods
-    @{
-    */
-  /// Update method called by simulator
-  void receive(double time);
-  /** @}
-    */
-
-public:
 
 protected:
   /** \name Protected methods
     @{
     */
-  /// Connect callback
-  virtual bool connectCallback();
-  /// Disconnect callback
-  virtual bool disconnectCallback();
-  /// Handle the received MOOS message (to be implemented)
-  virtual void receive(double time, const CMOOSMsg& msg) = 0;
+  /// Publish a string to MOOS
+  void publish(const std::string& msg);
+  /// Publish binary data to MOOS
+  void publish(unsigned char* data, size_t size);
   /** @}
     */
 
   /** \name Protected members
     @{
     */
-  /// Message to which we listen
+  /// Client used by this publisher
+  MOOSClient* mClient;
+  /// Message which we publish
   std::string mMsgName;
   /** @}
     */
 
 };
 
-#endif // RECEIVER_H
+#endif // PUBLISHER_H

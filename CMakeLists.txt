@@ -15,16 +15,21 @@ remake_project(
   INSTALL /usr
 )
 
-remake_pack_deb(morsel)
-
-remake_pack_deb(
-  COMPONENT dev
-  DESCRIPTION "Development headers"
-  morsel-dev
-  morsel-moos
-)
-
+remake_python()
 remake_doc(
   html
   latex
+)
+
+remake_pack_deb(
+  morsel
+)
+remake_pack_deb(
+  COMPONENT dev
+  DESCRIPTION "Development headers"
+  morsel-moos morsel-dev
+)
+remake_pack_deb(
+  COMPONENT python
+  morsel-moos morsel-python
 )

@@ -16,65 +16,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef PUBLISHER_H
-#define PUBLISHER_H
+#include "moos_publisher.h"
 
-/** \file publisher.h
-    \brief This file defines the Publisher class which is an interface for
-           publishing through MOOS.
-  */
+/******************************************************************************/
+/* Constructors and Destructor                                                */
+/******************************************************************************/
 
-#include "morsel-moos/moos/moos_client.h"
+MOOSPublisher::MOOSPublisher(std::string name, MOOSClient& client, std::string
+    msgName) :
+  NodePath(name),
+  mClient(&client),
+  mMsgName(msgName) {
+}
 
-/** The Publisher class is an interface for publishing through MOOS.
-    \brief MOOS publisher
-  */
-class Publisher :
-  public MOOSClient {
-PUBLISHED:
-  /** \name Constructors/destructor
-    @{
-    */
-  /// Constructor
-  Publisher(std::string name, std::string msgName, std::string configFile = "");
-  /// Destructor
-  virtual ~Publisher();
-  /** @}
-    */
+MOOSPublisher::~MOOSPublisher() {
+}
 
-  /** \name Methods
-    @{
-    */
-  /// Update method called by simulator
-  virtual void publish(double time) = 0;
-  /** @}
-    */
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
 
-public:
+void MOOSPublisher::publish(const std::string& msg) {
+  mClient->publish(mMsgName, msg);
+}
 
-protected:
-  /** \name Protected methods
-    @{
-    */
-  /// Connect callback
-  virtual bool connectCallback();
-  /// Disconnect callback
-  virtual bool disconnectCallback();
-  /// Publish a string to MOOS
-  bool publishString(std::string msg);
-  /// Publish binary data to MOOS
-  bool publishBinary(unsigned char* data, size_t size);
-  /** @}
-    */
-
-  /** \name Protected members
-    @{
-    */
-  /// Message which we publish
-  std::string mMsgName;
-  /** @}
-    */
-
-};
-
-#endif // PUBLISHER_H
+void MOOSPublisher::publish(unsigned char* data, size_t size) {
+  mClient->publish(mMsgName, data, size);
+}
