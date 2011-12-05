@@ -35,3 +35,15 @@ MOOSReceiver::MOOSReceiver(std::string name, MOOSClient& client, std::string
 MOOSReceiver::~MOOSReceiver() {
   mClient->unsubscribe(mMsgName);
 }
+
+/******************************************************************************/
+/* Methods                                                                    */
+/******************************************************************************/
+
+void MOOSReceiver::receive(const std::string& msgName, double msgTime,
+    const std::string& msg) {
+}
+
+void MOOSReceiver::receive(const std::string& msgName, double msgTime,
+    const unsigned char* msgData, size_t msgSize) {
+}

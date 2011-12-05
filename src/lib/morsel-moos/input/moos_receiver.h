@@ -50,10 +50,10 @@ public:
     */
   /// Receive string message
   virtual void receive(const std::string& msgName, double msgTime,
-    const std::string& msg) = 0;
+    const std::string& msg);
   /// Receive binary message
   virtual void receive(const std::string& msgName, double msgTime,
-    const unsigned char* msgData, size_t msgSize) = 0;
+    const unsigned char* msgData, size_t msgSize);
   /** @}
     */
 
