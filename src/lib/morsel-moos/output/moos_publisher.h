@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef MOOSPUBLISHER_H
-#define MOOSPUBLISHER_H
+#ifndef MOOS_PUBLISHER_H
+#define MOOS_PUBLISHER_H
 
 /** \file moos_publisher.h
     \brief This file defines the Publisher class which is an interface for
@@ -67,4 +67,4 @@ protected:
 
 };
 
-#endif // PUBLISHER_H
+#endif // MOOS_PUBLISHER_H

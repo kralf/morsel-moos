@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef MOOSRECEIVER_H
-#define MOOSRECEIVER_H
+#ifndef MOOS_RECEIVER_H
+#define MOOS_RECEIVER_H
 
 /** \file moos_receiver.h
     \brief This file defines the Receiver class which is an interface for
@@ -70,4 +70,4 @@ protected:
 
 };
 
-#endif // RECEIVER_H
+#endif // MOOS_RECEIVER_H

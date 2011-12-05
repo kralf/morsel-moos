@@ -16,8 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-#ifndef MOOSCLIENT_H
-#define MOOSCLIENT_H
+#ifndef MOOS_CLIENT_H
+#define MOOS_CLIENT_H
 
 /** \file moos_client.h
     \brief This file defines the MOOSClient class which is the abstract base
@@ -113,4 +113,4 @@ protected:
 
 };
 
-#endif // MOOSCLIENT_H
+#endif // MOOS_CLIENT_H
