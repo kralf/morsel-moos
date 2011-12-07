@@ -55,6 +55,7 @@ PUBLISHED:
   unsigned int getCommTick() const;
   /// Retrieve the MOOS time
   double getTime() const;
+  double getTime(double localTime) const;
   /** @}
     */
 

@@ -62,6 +62,10 @@ double MOOSClient::getTime() const {
   return MOOSTime();
 }
 
+double MOOSClient::getTime(double localTime) const {
+  return localTime*GetMOOSTimeWarp()+GetMOOSSkew();
+}
+
 /******************************************************************************/
 /* Methods                                                                    */
 /******************************************************************************/
