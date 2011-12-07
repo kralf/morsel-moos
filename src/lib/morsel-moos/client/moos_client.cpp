@@ -130,13 +130,14 @@ void MOOSClient::unsubscribe(MOOSReceiver* receiver) {
 }
 
 void MOOSClient::publish(const std::string& msgName, const std::string& msg) {
-  if (!mComms->Notify(msgName, msg, MOOSTime()))
+  if (mComms->IsConnected() && !mComms->Notify(msgName, msg, MOOSTime()))
     throw std::runtime_error("Failed to publish message");
 }
 
 void MOOSClient::publish(const std::string& msgName, unsigned char* msgData,
   size_t msgSize) {
-  if (!mComms->Notify(msgName, msgData, msgSize, MOOSTime()))
+  if (mComms->IsConnected() && !mComms->Notify(msgName, msgData, msgSize,
+    MOOSTime()))
     throw std::runtime_error("Failed to publish message");
 }
 
