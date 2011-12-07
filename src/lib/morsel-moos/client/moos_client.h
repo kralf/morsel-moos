@@ -55,6 +55,7 @@ PUBLISHED:
   unsigned int getCommTick() const;
   /// Retrieve the MOOS time
   double getTime() const;
+  /// Retrieve the MOOS time using a local timestamp
   double getTime(double localTime) const;
   /** @}
     */
@@ -75,6 +76,7 @@ public:
   void subscribe(const std::string& msgName, MOOSReceiver* receiver);
   /// Unsubscribe from message
   void unsubscribe(const std::string& msgName, MOOSReceiver* receiver);
+  /// Unsubscribe from message
   void unsubscribe(MOOSReceiver* receiver);
   /// Publish string message
   void publish(const std::string& msgName, const std::string& msg);

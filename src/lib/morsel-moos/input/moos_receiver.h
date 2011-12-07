@@ -53,7 +53,6 @@ public:
   void subscribe(const std::string& msgName);
   /// Unsubscribe from message
   void unsubscribe(const std::string& msgName);
-    
   /// Receive string message
   virtual void receive(const std::string& msgName, double msgTime,
     const std::string& msg);

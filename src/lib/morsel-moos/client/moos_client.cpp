@@ -30,7 +30,7 @@
 /******************************************************************************/
 
 MOOSClient::MOOSClient(std::string name, std::string configFile, std::string
-    serverHost, unsigned int serverPort, unsigned int commTick, bool quiet) :
+  serverHost, unsigned int serverPort, unsigned int commTick, bool quiet) :
   NodePath(name),
   mConfigFile(configFile),
   mServerHost(serverHost),
@@ -63,7 +63,7 @@ double MOOSClient::getTime() const {
 }
 
 double MOOSClient::getTime(double localTime) const {
-  return localTime*GetMOOSTimeWarp()+GetMOOSSkew();
+  return localTime * GetMOOSTimeWarp() + GetMOOSSkew();
 }
 
 /******************************************************************************/
@@ -73,7 +73,7 @@ double MOOSClient::getTime(double localTime) const {
 void MOOSClient::receive(double time) {
   MOOSMSG_LIST newMail;
   CMOOSMsg msg;
-  
+
   if (mComms->Fetch(newMail)) {
     for (std::map<std::string, MOOSReceiver*>::const_iterator
         it = subscriptions.begin(); it != subscriptions.end(); ++it)
@@ -90,7 +90,7 @@ void MOOSClient::receive(double time) {
 }
 
 void MOOSClient::subscribe(const std::string& msgName, MOOSReceiver*
-    receiver) {
+  receiver) {
   std::map<std::string, MOOSReceiver*>::iterator it =
     subscriptions.find(msgName);
 
@@ -104,7 +104,7 @@ void MOOSClient::subscribe(const std::string& msgName, MOOSReceiver*
 }
 
 void MOOSClient::unsubscribe(const std::string& msgName, MOOSReceiver*
-    receiver) {
+  receiver) {
   std::map<std::string, MOOSReceiver*>::iterator it =
     subscriptions.find(msgName);
 
@@ -135,7 +135,7 @@ void MOOSClient::publish(const std::string& msgName, const std::string& msg) {
 }
 
 void MOOSClient::publish(const std::string& msgName, unsigned char* msgData,
-    size_t msgSize) {
+  size_t msgSize) {
   if (!mComms->Notify(msgName, msgData, msgSize, MOOSTime()))
     throw std::runtime_error("Failed to publish message");
 }
@@ -147,16 +147,16 @@ bool MOOSClient::onConnectCallback(void* param) {
       it = moosClient->subscriptions.begin();
       it != moosClient->subscriptions.end(); ++it)
     moosClient->subscribe(it->first, it->second);
-  
+
   return true;
 }
 
 bool MOOSClient::onDisconnectCallback(void* param) {
   MOOSClient* moosClient = (MOOSClient*)param;
-  
+
   if (!moosClient->mComms->Close())
     throw std::runtime_error("Failed to disconnect client");
-  
+
   return true;
 }
 
@@ -165,7 +165,7 @@ void MOOSClient::parseConfigFile(const std::string& configFile, const
   CProcessConfigReader configReader;
   configReader.SetAppName(appName);
   configReader.SetFile(configFile);
-  
+
   if (!configReader.GetValue("ServerHost", mServerHost))
     throw std::runtime_error("MOOSClient::parseConfigFile(): "
       "configuration failure - no \"ServerHost\" specified in config file");

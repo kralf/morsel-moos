@@ -33,3 +33,8 @@ remake_pack_deb(
   COMPONENT python
   morsel-moos morsel-python
 )
+remake_pack_deb(
+  COMPONENT doc
+  DESCRIPTION "Documentation"
+  morsel-moos
+)

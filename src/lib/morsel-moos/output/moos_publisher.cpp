@@ -35,11 +35,11 @@ MOOSPublisher::~MOOSPublisher() {
 /******************************************************************************/
 
 void MOOSPublisher::publish(const std::string& msgName, const
-    std::string& msg) {
+  std::string& msg) {
   mClient->publish(msgName, msg);
 }
 
 void MOOSPublisher::publish(const std::string& msgName, unsigned char* msgData,
-    size_t msgSize) {
+  size_t msgSize) {
   mClient->publish(msgName, msgData, msgSize);
 }
