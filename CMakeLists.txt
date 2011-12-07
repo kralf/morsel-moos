@@ -5,8 +5,8 @@ include(Panda3D)
 
 remake_project(
   morsel-moos
-  VERSION 0.1
-  RELEASE alpha
+  VERSION 1.0
+  RELEASE beta
   SUMMARY "Morsel MOOS bindings"
   AUTHOR "Jerome Maye"
   CONTACT "jerome.maye@mavt.ethz.ch"
