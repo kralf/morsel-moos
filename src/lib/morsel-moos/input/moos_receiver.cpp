@@ -25,7 +25,7 @@
 /******************************************************************************/
 
 MOOSReceiver::MOOSReceiver(std::string name, MOOSClient& client, std::string
-  msgName) :
+    msgName) :
   NodePath(name),
   mClient(&client) {
   if (!msgName.empty())
@@ -48,12 +48,12 @@ void MOOSReceiver::unsubscribe(const std::string& msgName) {
   mClient->unsubscribe(msgName, this);
 }
 
-void MOOSReceiver::receive(const std::string& msgName, double msgTime,
-  const std::string& msg) {
+void MOOSReceiver::receive(const std::string& msgName, double msgTime, const
+    std::string& msg) {
   throw std::runtime_error("Received unhandled string message");
 }
 
-void MOOSReceiver::receive(const std::string& msgName, double msgTime,
-  const unsigned char* msgData, size_t msgSize) {
+void MOOSReceiver::receive(const std::string& msgName, double msgTime, const
+    unsigned char* msgData, size_t msgSize) {
   throw std::runtime_error("Received unhandled binary message");
 }

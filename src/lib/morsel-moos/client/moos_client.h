@@ -81,8 +81,8 @@ public:
   /// Publish string message
   void publish(const std::string& msgName, const std::string& msg);
   /// Publish binary message
-  void publish(const std::string& msgName, unsigned char* msgData,
-    size_t msgSize);
+  void publish(const std::string& msgName, unsigned char* msgData, size_t
+    msgSize);
   /** @}
     */
 

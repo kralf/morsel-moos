@@ -51,8 +51,8 @@ public:
   /// Publish a string to MOOS
   void publish(const std::string& msgName, const std::string& msg);
   /// Publish binary data to MOOS
-  void publish(const std::string& msgName, unsigned char* msgData,
-    size_t msgSize);
+  void publish(const std::string& msgName, unsigned char* msgData, size_t
+    msgSize);
   /** @}
     */
 

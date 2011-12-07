@@ -30,7 +30,7 @@
 /******************************************************************************/
 
 MOOSClient::MOOSClient(std::string name, std::string configFile, std::string
-  serverHost, unsigned int serverPort, unsigned int commTick, bool quiet) :
+    serverHost, unsigned int serverPort, unsigned int commTick, bool quiet) :
   NodePath(name),
   mConfigFile(configFile),
   mServerHost(serverHost),
@@ -89,8 +89,7 @@ void MOOSClient::receive(double time) {
   }
 }
 
-void MOOSClient::subscribe(const std::string& msgName, MOOSReceiver*
-  receiver) {
+void MOOSClient::subscribe(const std::string& msgName, MOOSReceiver* receiver) {
   std::map<std::string, MOOSReceiver*>::iterator it =
     subscriptions.find(msgName);
 
@@ -104,7 +103,7 @@ void MOOSClient::subscribe(const std::string& msgName, MOOSReceiver*
 }
 
 void MOOSClient::unsubscribe(const std::string& msgName, MOOSReceiver*
-  receiver) {
+    receiver) {
   std::map<std::string, MOOSReceiver*>::iterator it =
     subscriptions.find(msgName);
 
@@ -135,9 +134,9 @@ void MOOSClient::publish(const std::string& msgName, const std::string& msg) {
 }
 
 void MOOSClient::publish(const std::string& msgName, unsigned char* msgData,
-  size_t msgSize) {
+    size_t msgSize) {
   if (mComms->IsConnected() && !mComms->Notify(msgName, msgData, msgSize,
-    MOOSTime()))
+      MOOSTime()))
     throw std::runtime_error("Failed to publish message");
 }
 
@@ -162,7 +161,7 @@ bool MOOSClient::onDisconnectCallback(void* param) {
 }
 
 void MOOSClient::parseConfigFile(const std::string& configFile, const
-  std::string& appName) {
+    std::string& appName) {
   CProcessConfigReader configReader;
   configReader.SetAppName(appName);
   configReader.SetFile(configFile);

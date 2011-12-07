@@ -54,11 +54,11 @@ public:
   /// Unsubscribe from message
   void unsubscribe(const std::string& msgName);
   /// Receive string message
-  virtual void receive(const std::string& msgName, double msgTime,
-    const std::string& msg);
+  virtual void receive(const std::string& msgName, double msgTime, const
+    std::string& msg);
   /// Receive binary message
-  virtual void receive(const std::string& msgName, double msgTime,
-    const unsigned char* msgData, size_t msgSize);
+  virtual void receive(const std::string& msgName, double msgTime, const
+    unsigned char* msgData, size_t msgSize);
   /** @}
     */
 
