@@ -4,10 +4,10 @@ from morsel_moos.moosc import MOOSClient as CMOOSClient
 #-------------------------------------------------------------------------------
 
 class MOOSClient(Node):
-  def __init__(self, world, name = "MorselMOOS", configFile = "",
+  def __init__(self, name = "MorselMOOS", configFile = "",
       serverHost = "localhost", serverPort = 9000, commTick = 10,
       quiet = True, **kargs):
-    Node.__init__(self, world, name, **kargs)
+    Node.__init__(self, name, **kargs)
 
     self.configFile = configFile
     self.serverHost = serverHost
