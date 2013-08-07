@@ -1,3 +1,11 @@
+morsel-moos (1.0-26) unstable; urgency=low
+
+  * Renamed moos.conf to minimal.conf
+  * Added pkg-config file
+  * Release distributions
+
+ -- Ralf Kaestner <ralf.kaestner@gmail.com>  Wed, 07 Aug 2013 17:05:00 +0100
+
 morsel-moos (1.0-25) unstable; urgency=low
 
   * Added changelog

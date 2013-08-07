@@ -7,34 +7,51 @@ remake_project(
   morsel-moos
   VERSION 1.0
   RELEASE beta
-  SUMMARY "Morsel MOOS bindings"
+  SUMMARY "MOOS bindings for the MObile Robot Simulator."
+  AUTHOR "Ralf Kaestner"
   AUTHOR "Jerome Maye"
-  CONTACT "jerome.maye@mavt.ethz.ch"
-  HOME "http://aslforge.ethz.ch/projects/morsel-moos"
+  CONTACT "ralf.kaestner@gmail.com"
+  HOME "http://github.com/kralf/morsel-moos"
   LICENSE "GNU Lesser General Public License (LGPL)"
   INSTALL /usr
 )
 
-remake_python()
+remake_add_directories(
+  python
+)
 remake_doc(
   html
-  latex
 )
 
 remake_pack_deb(
-  morsel
+  DEPENDS morsel moos-core
 )
 remake_pack_deb(
   COMPONENT dev
-  DESCRIPTION "Development headers"
-  morsel-moos morsel-dev
+  DESCRIPTION "development headers"
+  DEPENDS morsel-moos morsel-dev
 )
 remake_pack_deb(
   COMPONENT python
-  morsel-moos morsel-python
+  DEPENDS morsel-moos morsel-python
 )
 remake_pack_deb(
+  ARCH all
   COMPONENT doc
-  DESCRIPTION "Documentation"
-  morsel-moos
+  DESCRIPTION "documentation"
+)
+
+remake_distribute_deb(
+  DISTRIBUTION lucid
+  SECTION python
+  UPLOAD ppa:kralf/asl
+  DEPENDS morsel-dev morsel-python moos-core-dev remake pkg-config doxygen
+  PASS CMAKE_BUILD_TYPE MORSEL_MOOS_GIT_REVISION
+)
+remake_distribute_deb(
+  DISTRIBUTION precise
+  SECTION python
+  UPLOAD ppa:kralf/asl
+  DEPENDS morsel-dev morsel-python moos-core-dev remake pkg-config doxygen
+  PASS CMAKE_BUILD_TYPE MORSEL_MOOS_GIT_REVISION
 )
