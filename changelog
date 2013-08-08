@@ -1,3 +1,9 @@
+morsel-moos (1.0-27) unstable; urgency=low
+
+  * Added Python includes
+
+ -- Ralf Kaestner <ralf.kaestner@gmail.com>  Wed, 08 Aug 2013 07:15:00 +0100
+
 morsel-moos (1.0-26) unstable; urgency=low
 
   * Renamed moos.conf to minimal.conf
