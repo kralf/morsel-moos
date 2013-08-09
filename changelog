@@ -1,3 +1,9 @@
+morsel-moos (1.0-31) unstable; urgency=low
+
+  * Fixed header installation
+
+ -- Ralf Kaestner <ralf.kaestner@gmail.com>  Fri, 09 Aug 2013 15:38:00 +0100
+
 morsel-moos (1.0-30) unstable; urgency=low
 
   * Fixed licensing information in source file headers
