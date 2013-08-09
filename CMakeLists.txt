@@ -33,6 +33,7 @@ remake_pack_deb(
 )
 remake_pack_deb(
   COMPONENT python
+  DESCRIPTION "Python modules"
   DEPENDS morsel-moos morsel-python
 )
 remake_pack_deb(
