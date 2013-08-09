@@ -1,6 +1,6 @@
 /******************************************************************************
- * Copyright (C) 2011 by Jerome Maye                                          *
- * jerome.maye@gmail.com                                                      *
+ * Copyright (C) 2011 by Ralf Kaestner and Jerome Maye                        *
+ * ralf.kaestner@gmail.com                                                    *
  *                                                                            *
  * This program is free software; you can redistribute it and/or modify       *
  * it under the terms of the Lesser GNU General Public License as published by*
@@ -16,19 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.       *
  ******************************************************************************/
 
-/** \file Doc.h
+/** \file Doxygen.h
     \brief Contains main page for Doxygen documentation
   */
 
-/** \mainpage Reference manual for morsel-moos - A free/open source C++ library for interfacing Morsel with MOOS
-    \author Jerome Maye <jerome.maye@gmail.com>
-    \version 1.0.20
-    \date December 7, 2011
+/** \mainpage ${REMAKE_PROJECT_NAME} - ${REMAKE_PROJECT_SUMMARY}
+    \par Contact:
+      ${REMAKE_PROJECT_ADMIN} <${REMAKE_PROJECT_CONTACT}>
+    \par Authors:
+      ${REMAKE_PROJECT_AUTHORS}
+    \par Version:
+      ${REMAKE_PROJECT_VERSION}
+    \par License:
+      \ref license "${REMAKE_PROJECT_LICENSE}"
+    \par Home:
+      ${REMAKE_PROJECT_HOME}
   */
 
 /** \page license License
     <hr size="1">
-    \section license-license License
+    \section license-license ${REMAKE_PROJECT_LICENSE}
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the Lesser GNU General Public License as published by

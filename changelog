@@ -1,3 +1,10 @@
+morsel-moos (1.0-30) unstable; urgency=low
+
+  * Fixed licensing information in source file headers
+  * Fixed Doxygen documentation
+
+ -- Ralf Kaestner <ralf.kaestner@gmail.com>  Fri, 09 Aug 2013 13:50:00 +0100
+
 morsel-moos (1.0-29) unstable; urgency=low
 
   * Added description of morsel-moos-python package
