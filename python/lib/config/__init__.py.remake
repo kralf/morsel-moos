@@ -1,0 +1,11 @@
+import os
+from os.path import *
+
+#-------------------------------------------------------------------------------
+
+class Configuration(object):
+  def __init__(self):
+    object.__init__(self)
+
+    self.configurationPath = "${CONFIGURATION_DESTINATION}"
+    self.filePath = "${FILE_DESTINATION}"

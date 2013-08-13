@@ -1,3 +1,10 @@
+morsel-moos (1.0-32) unstable; urgency=low
+
+  * Removed forced linkage from meta-library
+  * Added Python configuration
+
+ -- Ralf Kaestner <ralf.kaestner@gmail.com>  Tue, 13 Aug 2013 14:44:00 +0100
+
 morsel-moos (1.0-31) unstable; urgency=low
 
   * Fixed header installation
