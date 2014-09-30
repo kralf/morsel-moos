@@ -56,3 +56,10 @@ remake_distribute_deb(
   DEPENDS morsel-dev morsel-python moos-core-dev remake pkg-config doxygen
   PASS CMAKE_BUILD_TYPE MORSEL_MOOS_GIT_REVISION
 )
+remake_distribute_deb(
+  DISTRIBUTION trusty
+  SECTION python
+  UPLOAD ppa:kralf/asl
+  DEPENDS morsel-dev morsel-python moos-core-dev remake pkg-config doxygen
+  PASS CMAKE_BUILD_TYPE MORSEL_MOOS_GIT_REVISION
+)

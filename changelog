@@ -1,3 +1,9 @@
+morsel-moos (1.0-33) unstable; urgency=low
+
+  * Release distribution for Ubuntu Trusty Tahr
+
+ -- Ralf Kaestner <ralf.kaestner@gmail.com>  Tue, 30 Sep 2014 15:36:00 +0100
+
 morsel-moos (1.0-32) unstable; urgency=low
 
   * Removed forced linkage from meta-library
