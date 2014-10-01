@@ -1,3 +1,9 @@
+morsel-moos (1.0-34) unstable; urgency=low
+
+  * Adaptated to revised Morsel API
+
+ -- Ralf Kaestner <ralf.kaestner@gmail.com>  Wed, 01 Oct 2014 11:08:00 +0100
+
 morsel-moos (1.0-33) unstable; urgency=low
 
   * Release distribution for Ubuntu Trusty Tahr
